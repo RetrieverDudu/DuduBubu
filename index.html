@@ -187,6 +187,7 @@ function getJumpTargets(){
 let jumpTargets=[], jumpIdx=0;
 
 function onNo(){
+  if(window._startMusic) { window._startMusic(); }
   noCount++;
   if(navigator.vibrate) navigator.vibrate(35);
   btnNo.textContent=noTexts[Math.min(noCount,noTexts.length-1)];
@@ -242,6 +243,7 @@ function jumpBtn(){
 
 // ── YES ──
 function onYes(){
+  if(window._startMusic) { window._startMusic(); }
   clearInterval(flyInterval);
   if(navigator.vibrate) navigator.vibrate([200,80,200,80,350]);
   document.getElementById('mainScreen').style.display='none';
@@ -713,9 +715,13 @@ function animCf(){
     schedPhrase();
   }
 
-  document.addEventListener('touchstart',function h(){play();document.removeEventListener('touchstart',h,true);},{capture:true,once:true});
-  document.addEventListener('click',function h(){play();document.removeEventListener('click',h,true);},{capture:true,once:true});
-  setTimeout(()=>{try{play();}catch(e){}},200);
+  // iOS requires audio to start inside a direct user gesture handler.
+  // We hook into the Yes/No buttons which are guaranteed user touches.
+  window._startMusic = play;
+  // Also try immediately and on any tap (works on desktop / Android)
+  setTimeout(()=>{try{play();}catch(e){}},100);
+  document.addEventListener('touchstart', function h(){try{play();}catch(e){} document.removeEventListener('touchstart',h,true);},{capture:true,passive:true,once:true});
+  document.addEventListener('click', function h(){try{play();}catch(e){} document.removeEventListener('click',h,true);},{capture:true,once:true});
 })();
 </script>
 </body>
