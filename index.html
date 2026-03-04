@@ -1,196 +1,722 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Eine wichtige Frage 💕</title>
-<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Eine wichtige Frage 🐼💕</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-* { box-sizing: border-box; }
-body {
-  margin: 0;
-  font-family: 'Nunito', sans-serif;
-  height: 100vh;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: linear-gradient(-45deg, #ff9ad5, #ffd6ec, #c8f7ff, #ffe29a);
-  background-size: 400% 400%;
-  animation: gradientBG 12s ease infinite;
-}
-@keyframes gradientBG {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-.hearts {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  overflow: hidden;
-  top: 0;
-  left: 0;
-}
-.heart {
-  position: absolute;
-  color: rgba(255, 105, 180, 0.6);
-  animation: floatUp 6s linear infinite;
-  font-size: 20px;
-}
-@keyframes floatUp {
-  from { transform: translateY(100vh) scale(0.8); opacity: 1; }
-  to { transform: translateY(-10vh) scale(1.4); opacity: 0; }
-}
-.card {
-  background: rgba(255,255,255,0.95);
-  backdrop-filter: blur(10px);
-  padding: 40px 30px;
-  border-radius: 30px;
-  box-shadow: 0 15px 50px rgba(0,0,0,0.25);
-  text-align: center;
-  max-width: 400px;
-  width: 90%;
-  position: relative;
-  z-index: 2;
-}
-h1 {
-  font-family: 'Pacifico', cursive;
-  font-size: 30px;
-  color: #ff4da6;
-  margin-bottom: 12px;
-}
-.subtitle {
-  font-size: 18px;
-  margin-bottom: 15px;
-}
-.panda {
-  font-size: 55px;
-  margin: 10px 0;
-}
-.buttons {
-  position: relative;
-  margin-top: 15px;
-  min-height: 100px;
-}
-button {
-  border: none;
-  padding: 16px 28px;
-  font-size: 19px;
-  border-radius: 50px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  margin: 8px;
-  font-weight: 700;
-  position: relative;
-}
-#yesBtn {
-  background: linear-gradient(45deg, #4CAF50, #2ecc71);
-  color: white;
-  transform: scale(1);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-}
-#yesBtn:hover {
-  transform: scale(1.1);
-}
-#noBtn {
-  background: linear-gradient(45deg, #ff4d6d, #ff6f91);
-  color: white;
-}
+  :root {
+    --pink:#FF6B9D; --pink-light:#FFB3CC; --hot-pink:#FF4081;
+    --cream:#FFF9FC; --text-dark:#3D1C2E; --text-mid:#7B3F62;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  body{font-family:'Nunito',sans-serif;background:var(--cream);min-height:100vh;overflow:hidden;position:relative;}
+
+  .bg{position:fixed;inset:0;z-index:0;background:linear-gradient(135deg,#FFE4EF 0%,#FFF0F5 25%,#FFE8F0 50%,#FFF5FB 75%,#FFE4EF 100%);background-size:400% 400%;animation:bgShift 12s ease infinite;transition:background-image 0.5s ease;}
+  @keyframes bgShift{0%,100%{background-position:0% 50%;}50%{background-position:100% 50%;}}
+
+  .flash-overlay{position:fixed;inset:0;z-index:2;pointer-events:none;background:radial-gradient(ellipse at center,rgba(255,64,129,0.22) 0%,rgba(255,107,157,0.08) 60%,transparent 100%);opacity:0;transition:opacity 0.07s;}
+  .flash-overlay.flash{opacity:1;}
+
+  .deco-layer{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden;}
+  .deco{position:absolute;opacity:0.18;animation:floatDeco linear infinite;user-select:none;}
+  @keyframes floatDeco{0%{transform:translateY(110vh) rotate(0deg);opacity:0;}10%{opacity:0.18;}90%{opacity:0.18;}100%{transform:translateY(-15vh) rotate(360deg);opacity:0;}}
+
+  .card{position:relative;z-index:10;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem 1.5rem;}
+
+  .bears{display:flex;align-items:center;gap:0.4rem;margin-bottom:1rem;animation:popIn 0.8s cubic-bezier(.34,1.56,.64,1) both;}
+  .bear{font-size:2.8rem;}
+  .heart-mid{font-size:1.6rem;animation:pulse 1.2s ease-in-out infinite;}
+  @keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.25);}}
+
+  .ribbon{background:linear-gradient(90deg,var(--hot-pink),var(--pink),#FF8DC7);color:white;font-size:0.72rem;font-weight:800;letter-spacing:0.18em;text-transform:uppercase;padding:0.35rem 1.4rem;border-radius:50px;margin-bottom:1.6rem;box-shadow:0 4px 15px rgba(255,64,129,0.35);animation:popIn 0.9s cubic-bezier(.34,1.56,.64,1) 0.1s both;}
+
+  .question-wrap{text-align:center;animation:popIn 1s cubic-bezier(.34,1.56,.64,1) 0.2s both;margin-bottom:0.6rem;}
+  .question-sub{font-size:0.9rem;color:var(--text-mid);font-weight:600;margin-bottom:0.5rem;}
+  .question{font-family:'Playfair Display',serif;font-size:clamp(1.55rem,6vw,2.1rem);color:var(--text-dark);line-height:1.3;max-width:320px;}
+  .question em{color:var(--hot-pink);font-style:italic;}
+
+  .island-art{font-size:3.6rem;margin:0.9rem 0;animation:popIn 1s cubic-bezier(.34,1.56,.64,1) 0.3s both,sway 4s ease-in-out infinite 1.5s;}
+  @keyframes sway{0%,100%{transform:rotate(-4deg);}50%{transform:rotate(4deg);}}
+
+  .btns{display:flex;flex-direction:column;align-items:center;gap:1rem;margin-top:1.2rem;width:100%;max-width:300px;animation:popIn 1s cubic-bezier(.34,1.56,.64,1) 0.4s both;position:relative;}
+
+  .btn-yes{background:linear-gradient(135deg,var(--hot-pink),#FF6BB3,#FF4081);color:white;border:none;border-radius:50px;font-family:'Nunito',sans-serif;font-weight:800;font-size:1.1rem;padding:0.9rem 2.5rem;width:100%;cursor:pointer;box-shadow:0 8px 25px rgba(255,64,129,0.45),0 2px 8px rgba(255,64,129,0.3);transition:transform 0.15s,box-shadow 0.15s,font-size 0.4s,padding 0.4s;position:relative;overflow:hidden;}
+  .btn-yes::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,0.25),transparent);border-radius:50px;}
+  .btn-yes:active{transform:scale(0.95);}
+  .btn-yes:hover{transform:scale(1.04);box-shadow:0 12px 30px rgba(255,64,129,0.55);}
+
+  .btn-no{background:white;color:var(--text-mid);border:2px solid var(--pink-light);border-radius:50px;font-family:'Nunito',sans-serif;font-weight:700;font-size:0.95rem;padding:0.7rem 2rem;width:80%;cursor:pointer;box-shadow:0 4px 12px rgba(255,107,157,0.12);transition:transform 0.12s,font-size 0.4s,padding 0.4s,width 0.4s;position:relative;z-index:50;}
+  .btn-no:active{transform:scale(0.95);}
+  /* flying mode: fixed, auto width so it never clips or disappears */
+  .btn-no.flying{position:fixed!important;z-index:500;width:auto!important;min-width:80px;white-space:nowrap;transition:left 0.2s cubic-bezier(.34,1.56,.64,1),top 0.2s cubic-bezier(.34,1.56,.64,1);}
+
+  .hint{font-size:0.72rem;color:var(--pink);margin-top:0.6rem;opacity:0;transition:opacity 0.5s;font-weight:600;}
+  .hint.show{opacity:1;}
+
+  /* ensure flying btn-no is never hidden under other layers */
+  body > .btn-no.flying { display:block !important; visibility:visible !important; }
+
+  .straw-row{display:flex;gap:0.4rem;margin-top:1.4rem;font-size:1.2rem;opacity:0.55;animation:popIn 1s cubic-bezier(.34,1.56,.64,1) 0.5s both;}
+
+  /* SUCCESS SCREEN */
+  #success{display:none;position:fixed;inset:0;z-index:100;flex-direction:column;align-items:center;justify-content:flex-end;text-align:center;overflow:hidden;}
+  #success.show{display:flex;animation:fadeIn 0.6s ease both;}
+  @keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+
+  #sunsetCanvas{position:absolute;inset:0;width:100%;height:100%;z-index:0;}
+
+  .success-content{position:relative;z-index:2;width:100%;padding:2rem 2rem 3rem;background:linear-gradient(to top,rgba(20,8,18,0.78) 0%,rgba(20,8,18,0.38) 55%,transparent 100%);display:flex;flex-direction:column;align-items:center;animation:slideUp 0.9s cubic-bezier(.34,1.56,.64,1) 0.3s both;}
+  @keyframes slideUp{from{opacity:0;transform:translateY(50px);}to{opacity:1;transform:translateY(0);}}
+
+  .success-bears{font-size:3.4rem;margin-bottom:0.4rem;animation:bounce 1.2s ease infinite;}
+  @keyframes bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+
+  .badge{background:linear-gradient(135deg,var(--hot-pink),#FF8DC7);color:white;border-radius:50px;padding:0.4rem 1.4rem;font-size:0.75rem;font-weight:800;letter-spacing:0.12em;box-shadow:0 5px 18px rgba(255,64,129,0.5);margin-bottom:0.8rem;}
+
+  .success-title{font-family:'Playfair Display',serif;font-size:clamp(1.6rem,6.5vw,2.2rem);color:white;margin:0.4rem 0;line-height:1.25;text-shadow:0 2px 12px rgba(0,0,0,0.5);}
+  .success-sub{color:rgba(255,220,235,0.95);font-size:0.97rem;font-weight:600;max-width:280px;margin:0.3rem auto 0.8rem;line-height:1.5;text-shadow:0 1px 8px rgba(0,0,0,0.4);}
+  .love-sig{font-family:'Playfair Display',serif;font-style:italic;font-size:1.05rem;color:#FFB3CC;margin-top:0.3rem;text-shadow:0 1px 8px rgba(0,0,0,0.35);}
+  .hearts-row{font-size:1.3rem;letter-spacing:0.2rem;margin-top:0.7rem;animation:pulse 1.5s ease-in-out infinite;}
+
+  #confetti{position:fixed;inset:0;z-index:99;pointer-events:none;}
+
+  @keyframes popIn{from{opacity:0;transform:scale(0.7) translateY(20px);}to{opacity:1;transform:scale(1) translateY(0);}}
+
+  .btn-no.flying{position:fixed!important;transition:left 0.18s cubic-bezier(.34,1.56,.64,1),top 0.18s cubic-bezier(.34,1.56,.64,1),font-size 0.4s,width 0.4s;}
 </style>
 </head>
 <body>
 
-<div class="hearts" id="hearts"></div>
-<div class="card">
-  <div class="panda">🐼💖🐻</div>
-  <h1>Möchtest du mit mir nach Teneriffa? 🌴💕</h1>
-  <div class="subtitle">Sonne ☀️ Strand 🌊 Erdbeeren 🍓 & ganz viel Liebe 💕</div>
-  <div class="buttons" id="buttonArea">
-    <button id="yesBtn">JA 💚</button>
-    <button id="noBtn">Nein ❌</button>
+<div class="bg" id="bgEl"></div>
+<div class="flash-overlay" id="flashOverlay"></div>
+<div class="deco-layer" id="decoLayer"></div>
+<canvas id="confetti"></canvas>
+
+<!-- MAIN SCREEN -->
+<div class="card" id="mainScreen">
+  <div class="bears"><span class="bear">🐻</span><span class="heart-mid">💕</span><span class="bear">🐼</span></div>
+  <div class="ribbon">✨ Braunbär hat eine Frage ✨</div>
+  <div class="question-wrap">
+    <div class="question-sub">Hey mein Panda 🐼</div>
+    <div class="question">Möchtest du mit mir nach <em>Teneriffa</em>? 🌴</div>
+  </div>
+  <div class="island-art">🏝️</div>
+  <div class="btns" id="btnsWrap">
+    <button class="btn-yes" id="btnYes" onclick="onYes()">🌺 Ja, unbedingt! 🌺</button>
+    <button class="btn-no" id="btnNo" onclick="onNo()">Nein</button>
+    <div class="hint" id="hint">Psst… du weißt, dass du Ja willst 😉</div>
+  </div>
+  <div class="straw-row">🍓🎀🍓🎀🍓🎀🍓</div>
+</div>
+
+<!-- SUCCESS SCREEN -->
+<div id="success">
+  <canvas id="sunsetCanvas"></canvas>
+  <div class="success-content">
+    <div class="success-bears">🐻💖🐼</div>
+    <div class="success-title">Ich freue mich SO<br>auf unseren Urlaub!</div>
+    <div class="success-sub">Teneriffa mit meinem Panda – das wird das Schönste überhaupt! 🌴🌺</div>
+    <div style="font-size:2rem;margin:0.3rem 0;">🍓🎀🌸🎀🍓</div>
+    <div class="love-sig">Dein Braunbär liebt dich 🐻💕</div>
+    <div class="hearts-row">💖 💗 💕 💖 💗</div>
   </div>
 </div>
 
-<audio id="bgMusic" loop>
-  <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_5f1c8c8e4b.mp3?filename=sweet-love-11013.mp3" type="audio/mpeg">
-</audio>
-
 <script>
-const heartsContainer = document.getElementById("hearts");
-for (let i = 0; i < 30; i++) {
-  const heart = document.createElement("div");
-  heart.classList.add("heart");
-  heart.innerText = "💗";
-  heart.style.left = Math.random() * 100 + "vw";
-  heart.style.animationDuration = (4 + Math.random() * 4) + "s";
-  heart.style.fontSize = (15 + Math.random() * 30) + "px";
-  heartsContainer.appendChild(heart);
+// ── FLOATING DECO ──
+const decos=['🍓','🎀','💕','🌸','✨','💖','🌺','🩷','🫶','🍬','🐼','🐻'];
+const layer=document.getElementById('decoLayer');
+for(let i=0;i<22;i++){
+  const d=document.createElement('div');
+  d.className='deco';
+  d.textContent=decos[Math.floor(Math.random()*decos.length)];
+  d.style.left=Math.random()*100+'vw';
+  d.style.animationDuration=(8+Math.random()*12)+'s';
+  d.style.animationDelay=(-Math.random()*12)+'s';
+  d.style.fontSize=(1+Math.random()*1.4)+'rem';
+  layer.appendChild(d);
 }
 
-let noCount = 0;
-const yesBtn = document.getElementById("yesBtn");
-const noBtn = document.getElementById("noBtn");
-const buttonArea = document.getElementById("buttonArea");
-const noTexts = ["Nein ❌","Ganz sicher? 😢","Wirklich??? 🥺","Letzte Chance 😭",
-"Bist du sicher?? 😩","Überleg nochmal 😭","Bitteeee 🥺","Denk an uns 😭",
-"Ich flehe dich an 😭","Okay… letzter Versuch 😩"];
+// ── NO BUTTON ──
+const noTexts=['Nein','Sicherlich nicht 😅','Wirklich nicht 🙈','Ganz sicher nicht!','Nein nein nein 🙅‍♀️','Gar nicht! 😤','Niemals!! 😱','Auf keinen Fall!','Ich bitte dich… 🥺'];
+const bgGradients=[
+  'linear-gradient(135deg,#FFE4EF 0%,#FFF0F5 25%,#FFE8F0 50%,#FFF5FB 75%,#FFE4EF 100%)',
+  'linear-gradient(135deg,#FFD8E8 0%,#FFE8F2 30%,#FFD4E6 60%,#FFF0F8 100%)',
+  'linear-gradient(135deg,#FFC8DE 0%,#FFE0EE 30%,#FFCADE 60%,#FFE8F4 100%)',
+  'linear-gradient(135deg,#FFB8D4 0%,#FFD6E8 30%,#FFB8D6 60%,#FFDEF0 100%)',
+  'linear-gradient(135deg,#FFA8CA 0%,#FFCCDE 30%,#FFA8CC 60%,#FFD4EA 100%)',
+  'linear-gradient(135deg,#FF98BF 0%,#FFC0D4 30%,#FF9ABA 60%,#FFCAE4 100%)',
+];
 
-noBtn.addEventListener("click", () => {
+let noCount=0, flying=false, flyInterval=null;
+let btnW=0, btnH=0; // cached size before going fixed
+const btnNo=document.getElementById('btnNo');
+const btnYes=document.getElementById('btnYes');
+const hint=document.getElementById('hint');
+const bgEl=document.getElementById('bgEl');
+const flashOverlay=document.getElementById('flashOverlay');
+
+function triggerFlash(){
+  flashOverlay.classList.add('flash');
+  setTimeout(()=>flashOverlay.classList.remove('flash'),150);
+}
+
+// Predefined jump targets: corners + edges + center clusters for variety
+function getJumpTargets(){
+  const VW=window.innerWidth, VH=window.innerHeight;
+  const bw=Math.max(btnW,90), bh=Math.max(btnH,44);
+  const m=12;
+  return [
+    // corners
+    {x:m, y:m},
+    {x:VW-bw-m, y:m},
+    {x:m, y:VH-bh-m},
+    {x:VW-bw-m, y:VH-bh-m},
+    // edges middle
+    {x:(VW-bw)/2, y:m},
+    {x:(VW-bw)/2, y:VH-bh-m},
+    {x:m, y:(VH-bh)/2},
+    {x:VW-bw-m, y:(VH-bh)/2},
+    // inner random areas
+    {x:m+Math.random()*(VW-bw-m*2), y:m+Math.random()*(VH-bh-m*2)},
+    {x:m+Math.random()*(VW-bw-m*2), y:m+Math.random()*(VH-bh-m*2)},
+  ];
+}
+let jumpTargets=[], jumpIdx=0;
+
+function onNo(){
   noCount++;
-  if (noCount < noTexts.length) noBtn.textContent = noTexts[noCount];
-  let scale = 1 + noCount * 0.2;
-  yesBtn.style.transform = `scale(${scale})`;
-  moveButtonWithinBounds();
-});
-
-function moveButtonWithinBounds() {
-  const maxX = buttonArea.clientWidth - noBtn.offsetWidth;
-  const maxY = buttonArea.clientHeight - noBtn.offsetHeight;
-  const randomX = Math.random() * maxX;
-  const randomY = Math.random() * maxY;
-  noBtn.style.position = "absolute";
-  noBtn.style.left = randomX + "px";
-  noBtn.style.top = randomY + "px";
+  if(navigator.vibrate) navigator.vibrate(35);
+  btnNo.textContent=noTexts[Math.min(noCount,noTexts.length-1)];
+  triggerFlash();
+  const gi=Math.min(noCount,bgGradients.length-1);
+  bgEl.style.backgroundImage=bgGradients[gi];
+  const ns=Math.max(0.55,1-noCount*0.06), ys=Math.min(1.42,1+noCount*0.06);
+  // only shrink size if not yet flying (fixed buttons use auto width)
+  if(!flying){
+    btnNo.style.width=(80*ns)+'%';
+    btnNo.style.fontSize=(0.95*ns)+'rem';
+    btnNo.style.padding=(0.7*ns)+'rem '+(2*ns)+'rem';
+  }
+  btnYes.style.fontSize=(1.1*ys)+'rem';
+  btnYes.style.padding=(0.9*ys)+'rem '+(2.5*ys)+'rem';
+  if(noCount>=2) hint.classList.add('show');
+  if(noCount>=5&&!flying){flying=true;startFlying();}
+  if(noCount>=10&&!flyInterval){flyInterval=setInterval(jumpBtn,190);}
 }
 
-// Musik automatisch starten beim ersten Klick
-let musicStarted = false;
-function startMusic() {
-  if (!musicStarted) {
-    document.getElementById('bgMusic').play();
-    musicStarted = true;
+function startFlying(){
+  // Capture real size BEFORE adding .flying (which changes layout)
+  const rect=btnNo.getBoundingClientRect();
+  btnW=rect.width; btnH=rect.height;
+  // Move button to body so it's never clipped by a parent container
+  document.body.appendChild(btnNo);
+  // Place at current position first so there's no jump
+  btnNo.style.left=rect.left+'px';
+  btnNo.style.top=rect.top+'px';
+  btnNo.classList.add('flying');
+  // Shuffle targets each time we start
+  jumpTargets=getJumpTargets().sort(()=>Math.random()-0.5);
+  jumpIdx=0;
+  setTimeout(jumpBtn, 80);
+}
+
+function jumpBtn(){
+  const VW=window.innerWidth, VH=window.innerHeight;
+  const bw=Math.max(btnW,90), bh=Math.max(btnH,44);
+  const m=12;
+  // cycle through predefined targets for full-screen coverage, shuffle when exhausted
+  if(jumpIdx>=jumpTargets.length){
+    jumpTargets=getJumpTargets().sort(()=>Math.random()-0.5);
+    jumpIdx=0;
+  }
+  const t=jumpTargets[jumpIdx++];
+  // Clamp to always stay on screen
+  const x=Math.min(Math.max(t.x,m), VW-bw-m);
+  const y=Math.min(Math.max(t.y,m), VH-bh-m);
+  btnNo.style.left=x+'px';
+  btnNo.style.top=y+'px';
+}
+
+// ── YES ──
+function onYes(){
+  clearInterval(flyInterval);
+  if(navigator.vibrate) navigator.vibrate([200,80,200,80,350]);
+  document.getElementById('mainScreen').style.display='none';
+  document.getElementById('success').classList.add('show');
+  drawSunset();
+  startConfetti();
+}
+
+// ── SUNSET CANVAS ──
+function drawSunset(){
+  const cv=document.getElementById('sunsetCanvas');
+  const W=window.innerWidth, H=window.innerHeight;
+  cv.width=W; cv.height=H;
+  const c=cv.getContext('2d');
+
+  // ── Rich layered sky ──
+  const sky=c.createLinearGradient(0,0,0,H*0.74);
+  sky.addColorStop(0,'#0d0520');
+  sky.addColorStop(0.12,'#1e0838');
+  sky.addColorStop(0.28,'#6b1050');
+  sky.addColorStop(0.46,'#c4324a');
+  sky.addColorStop(0.62,'#f0723a');
+  sky.addColorStop(0.76,'#f9b84a');
+  sky.addColorStop(0.9,'#fde3a0');
+  sky.addColorStop(1,'#ffe9b5');
+  c.fillStyle=sky; c.fillRect(0,0,W,H);
+
+  // ── Twinkling stars (upper sky) ──
+  for(let i=0;i<60;i++){
+    const sx=Math.random()*W, sy=Math.random()*H*0.35;
+    const sr=0.3+Math.random()*1.4;
+    const alpha=0.4+Math.random()*0.6;
+    const starG=c.createRadialGradient(sx,sy,0,sx,sy,sr*2.5);
+    starG.addColorStop(0,`rgba(255,255,240,${alpha})`);
+    starG.addColorStop(1,'rgba(255,255,200,0)');
+    c.fillStyle=starG; c.beginPath(); c.arc(sx,sy,sr*2.5,0,Math.PI*2); c.fill();
+  }
+
+  // ── Sun position ──
+  const sx=W*0.5, sy=H*0.44, sr=H*0.082;
+
+  // Wide atmospheric glow layers
+  [[sr*5.5,'rgba(255,180,60,0.10)'],[sr*3.8,'rgba(255,200,60,0.18)'],[sr*2.4,'rgba(255,220,80,0.28)']].forEach(([r,col])=>{
+    const g=c.createRadialGradient(sx,sy,0,sx,sy,r);
+    g.addColorStop(0,col); g.addColorStop(1,'rgba(255,150,0,0)');
+    c.fillStyle=g; c.beginPath(); c.arc(sx,sy,r,0,Math.PI*2); c.fill();
+  });
+
+  // Sun disc gradient
+  const sunG=c.createRadialGradient(sx,sy-sr*0.12,sr*0.1,sx,sy,sr);
+  sunG.addColorStop(0,'#fff8cc'); sunG.addColorStop(0.3,'#ffe060');
+  sunG.addColorStop(0.7,'#ffaa20'); sunG.addColorStop(1,'#ff7800');
+  c.fillStyle=sunG; c.beginPath(); c.arc(sx,sy,sr,0,Math.PI*2); c.fill();
+
+  // Sun rim highlight
+  c.strokeStyle='rgba(255,255,200,0.35)'; c.lineWidth=sr*0.06;
+  c.beginPath(); c.arc(sx,sy-sr*0.08,sr*0.88,Math.PI*1.15,Math.PI*1.85); c.stroke();
+
+  // ── Soft sunset clouds ──
+  function cloud(xc,yc,sc,col,al){
+    c.globalAlpha=al;
+    const puffs=[[0,0,sc],[sc*0.6,-sc*0.28,sc*0.72],[sc*-0.62,-sc*0.22,sc*0.66],[sc*0.26,-sc*0.52,sc*0.58],[sc*-0.3,-sc*0.48,sc*0.52]];
+    puffs.forEach(([dx,dy,r])=>{
+      const cg=c.createRadialGradient(xc+dx,yc+dy-r*0.3,r*0.1,xc+dx,yc+dy,r);
+      cg.addColorStop(0,col); cg.addColorStop(1,'rgba(255,200,160,0)');
+      c.fillStyle=cg; c.beginPath(); c.arc(xc+dx,yc+dy,r,0,Math.PI*2); c.fill();
+    });
+    c.globalAlpha=1;
+  }
+  cloud(W*0.16,H*0.14,W*0.058,'#f9c0a0',0.38);
+  cloud(W*0.75,H*0.1,W*0.065,'#f8b090',0.30);
+  cloud(W*0.88,H*0.22,W*0.042,'#f5a880',0.22);
+  cloud(W*0.38,H*0.08,W*0.035,'#fbc8b0',0.20);
+
+  // ── Horizon atmospheric haze ──
+  const haze=c.createLinearGradient(0,H*0.62,0,H*0.76);
+  haze.addColorStop(0,'rgba(255,120,50,0)');
+  haze.addColorStop(0.4,'rgba(240,100,40,0.14)');
+  haze.addColorStop(0.7,'rgba(200,80,30,0.08)');
+  haze.addColorStop(1,'rgba(100,60,20,0)');
+  c.fillStyle=haze; c.fillRect(0,H*0.62,W,H*0.14);
+
+  // ── Ocean ──
+  const ocean=c.createLinearGradient(0,H*0.7,0,H);
+  ocean.addColorStop(0,'#1e5878'); ocean.addColorStop(0.15,'#153d58');
+  ocean.addColorStop(0.4,'#0d2840'); ocean.addColorStop(1,'#060f1e');
+  c.fillStyle=ocean; c.fillRect(0,H*0.7,W,H*0.3);
+
+  // Ocean surface sheen (orange tint near horizon)
+  const sheen=c.createLinearGradient(0,H*0.7,0,H*0.78);
+  sheen.addColorStop(0,'rgba(240,120,50,0.18)');
+  sheen.addColorStop(1,'rgba(240,120,50,0)');
+  c.fillStyle=sheen; c.fillRect(0,H*0.7,W,H*0.08);
+
+  // Sun path / shimmer on water — tapered golden column
+  for(let i=0;i<18;i++){
+    const ry=H*0.72+i*H*0.014;
+    const taper=1-i*0.048;
+    const rw=W*0.028*taper*(0.55+Math.random()*0.9);
+    const al=Math.max(0,0.32-i*0.016);
+    c.fillStyle=`rgba(255,210,60,${al})`;
+    c.beginPath(); c.ellipse(sx,ry,rw,H*0.006,0,0,Math.PI*2); c.fill();
+  }
+
+  // Gentle wave lines
+  for(let i=0;i<9;i++){
+    const wy=H*0.72+i*H*0.022;
+    const al=Math.max(0,0.09-i*0.008);
+    c.strokeStyle=`rgba(255,255,255,${al})`; c.lineWidth=1.2+i*0.1;
+    c.beginPath();
+    for(let x=0;x<=W;x+=8){
+      const y=wy+Math.sin(x/W*Math.PI*6+i*0.8)*H*0.003;
+      x===0?c.moveTo(x,y):c.lineTo(x,y);
+    }
+    c.stroke();
+  }
+
+  // ── Sandy beach ──
+  // Main sand body
+  const sandG=c.createLinearGradient(0,H*0.73,0,H*0.8);
+  sandG.addColorStop(0,'#d4935a'); sandG.addColorStop(0.5,'#c07840'); sandG.addColorStop(1,'#a05e28');
+  c.fillStyle=sandG;
+  c.beginPath(); c.moveTo(0,H*0.73);
+  // Gentle dune curve
+  c.bezierCurveTo(W*0.25,H*0.725, W*0.5,H*0.735, W*0.75,H*0.728);
+  c.bezierCurveTo(W*0.88,H*0.725, W,H*0.732, W,H*0.732);
+  c.lineTo(W,H); c.lineTo(0,H); c.closePath(); c.fill();
+
+  // Sand wet edge shimmer
+  const wetG=c.createLinearGradient(0,H*0.73,0,H*0.745);
+  wetG.addColorStop(0,'rgba(100,160,200,0.25)'); wetG.addColorStop(1,'rgba(100,160,200,0)');
+  c.fillStyle=wetG; c.fillRect(0,H*0.73,W,H*0.015);
+
+  // ── Background distant island silhouette ──
+  c.fillStyle='rgba(60,20,60,0.35)';
+  c.beginPath(); c.moveTo(W*0.3,H*0.73);
+  c.bezierCurveTo(W*0.35,H*0.65, W*0.42,H*0.62, W*0.48,H*0.68);
+  c.bezierCurveTo(W*0.52,H*0.64, W*0.58,H*0.61, W*0.64,H*0.67);
+  c.bezierCurveTo(W*0.68,H*0.7, W*0.72,H*0.73, W*0.75,H*0.73);
+  c.closePath(); c.fill();
+
+  // ── Palm trees ──
+  drawPalm(c,W*0.08,H*0.742,H*0.31,-1,W);
+  drawPalm(c,W*0.92,H*0.742,H*0.27, 1,W);
+  // Smaller background palm
+  c.globalAlpha=0.55;
+  drawPalm(c,W*0.82,H*0.74,H*0.2,1,W);
+  c.globalAlpha=1;
+
+  // ── Bear couple ──
+  drawCouple(c,W*0.5,H*0.742,H*0.2);
+
+  // ── Foreground sand texture ──
+  for(let i=0;i<30;i++){
+    const tx=Math.random()*W, ty=H*0.76+Math.random()*H*0.08;
+    c.strokeStyle=`rgba(180,120,60,${0.12+Math.random()*0.1})`; c.lineWidth=1;
+    c.beginPath(); c.moveTo(tx,ty); c.lineTo(tx+8+Math.random()*12,ty+Math.random()*3); c.stroke();
+  }
+
+  // ── Fireflies / sparkles on beach ──
+  for(let i=0;i<8;i++){
+    const fx=W*0.2+Math.random()*W*0.6, fy=H*0.76+Math.random()*H*0.06;
+    const fr=0.8+Math.random()*1.2;
+    const fg=c.createRadialGradient(fx,fy,0,fx,fy,fr*3);
+    fg.addColorStop(0,'rgba(255,240,180,0.7)'); fg.addColorStop(1,'rgba(255,220,100,0)');
+    c.fillStyle=fg; c.beginPath(); c.arc(fx,fy,fr*3,0,Math.PI*2); c.fill();
   }
 }
 
-yesBtn.addEventListener("mouseenter", () => {
-  confetti({ particleCount: 50, spread: 90, origin: { y: 0.5 } });
-  startMusic();
-});
+function drawPalm(c,x,y,h,dir){
+  // Trunk – tapered, slightly curved
+  const tx=x+dir*h*0.22, ty=y-h;
+  const trunkG=c.createLinearGradient(x,y,tx,ty);
+  trunkG.addColorStop(0,'#2a1005'); trunkG.addColorStop(0.5,'#4a2208'); trunkG.addColorStop(1,'#3a1a06');
+  c.strokeStyle=trunkG; c.lineWidth=h*0.052; c.lineCap='round';
+  c.beginPath(); c.moveTo(x,y);
+  c.bezierCurveTo(x+dir*h*0.08,y-h*0.35, x+dir*h*0.14,y-h*0.65, tx,ty);
+  c.stroke();
 
-yesBtn.addEventListener("click", () => {
-  startMusic();
-  if (navigator.vibrate) navigator.vibrate(200); // Vibration bei Klick
-  confetti({ particleCount: 300, spread: 160, origin: { y: 0.6 } });
-  document.body.innerHTML = `
-  <div style="position:relative;width:100%;height:100vh;background:radial-gradient(circle at center, #ff9ad5, #ffd6ec, #c8f7ff, #ffe29a);overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:'Pacifico', cursive;color:white;">
-    <canvas id='confettiCanvas' style='position:absolute;top:0;left:0;width:100%;height:100%;'></canvas>
-    <h1 style='font-size:50px;text-shadow:0 0 25px #fff;'>YAAAAY!!! 💕🎀🌴</h1>
-    <p style='font-size:30px;text-shadow:0 0 20px #ff4da6;'>Teneriffa wir kommen!!! ✈️☀️🌊</p>
-    <div style='font-size:70px;margin:20px 0;'>🐻💖🍓🎀🌸💖</div>
-    <p style='font-size:28px;text-shadow:0 0 20px #fff;'>Dein Braunbär liebt dich 💕</p>
-  </div>
-  `;
-  const canvas = document.getElementById('confettiCanvas');
-  const confettiInstance = confetti.create(canvas, { resize: true });
-  setInterval(() => {
-    confettiInstance({ particleCount: 50, spread: 150, origin: { y: Math.random() * 0.6 } });
-    if (navigator.vibrate) navigator.vibrate(50); // kleine Vibration während Confetti
-  }, 500);
-});
+  // Trunk rings
+  for(let i=1;i<7;i++){
+    const t=i/7;
+    const rx=x+dir*h*0.08*t*2, ry=y-h*t;
+    c.strokeStyle='rgba(0,0,0,0.18)'; c.lineWidth=h*0.01;
+    c.beginPath(); c.ellipse(rx,ry,h*0.028,h*0.008,Math.atan2(ty-y,tx-x),0,Math.PI*2); c.stroke();
+  }
+
+  // Leaves – varied lengths and droops
+  const leafData=[
+    [-Math.PI*0.32, h*0.38, 0.8],[-Math.PI*0.52, h*0.42, 0.9],
+    [-Math.PI*0.72, h*0.36, 0.75],[-Math.PI*0.22, h*0.34, 0.7],
+    [-Math.PI*0.85, h*0.32, 0.7],[Math.PI*0.85, h*0.28, 0.5],
+  ];
+  leafData.forEach(([angle,len,alpha])=>{
+    c.globalAlpha=alpha*0.95;
+    const a=angle*dir;
+    const ex=tx+Math.cos(a)*len, ey=ty+Math.sin(a)*len;
+    const droop=len*0.3;
+    const mx=(tx+ex)/2+Math.cos(a+Math.PI/2)*droop*dir;
+    const my=(ty+ey)/2+Math.sin(a+Math.PI/2)*droop;
+    // Leaf gradient
+    const lg=c.createLinearGradient(tx,ty,ex,ey);
+    lg.addColorStop(0,'#1a4a10'); lg.addColorStop(0.5,'#1e5514'); lg.addColorStop(1,'#0f2e08');
+    c.strokeStyle=lg; c.lineWidth=h*0.024;
+    c.beginPath(); c.moveTo(tx,ty); c.quadraticCurveTo(mx,my,ex,ey); c.stroke();
+    // Leaf midrib
+    c.strokeStyle='rgba(30,80,15,0.5)'; c.lineWidth=h*0.006;
+    c.beginPath(); c.moveTo(tx,ty); c.quadraticCurveTo(mx,my,ex,ey); c.stroke();
+  });
+  c.globalAlpha=1;
+
+  // Coconuts cluster
+  [[0,h*0.055,'#3a1a05'],[dir*h*0.05,h*0.095,'#3d1e06'],[dir*-h*0.045,h*0.085,'#381804']].forEach(([dx,dy,col])=>{
+    c.fillStyle=col;
+    c.beginPath(); c.arc(tx+dx,ty+dy,h*0.028,0,Math.PI*2); c.fill();
+    c.strokeStyle='rgba(80,40,10,0.4)'; c.lineWidth=1;
+    c.beginPath(); c.arc(tx+dx,ty+dy,h*0.028,0,Math.PI*2); c.stroke();
+  });
+}
+
+function drawCouple(c,cx,cy,s){
+  // ── Brown Bear (left, slightly bigger) ──
+  const bx=cx-s*0.24, by=cy;
+  const bearBody=c.createRadialGradient(bx,by-s*0.28,s*0.05,bx,by-s*0.28,s*0.28);
+  bearBody.addColorStop(0,'#7a4422'); bearBody.addColorStop(1,'#4e2410');
+  c.fillStyle=bearBody;
+  // Body
+  c.beginPath(); c.ellipse(bx,by-s*0.28,s*0.162,s*0.26,0,0,Math.PI*2); c.fill();
+  // Head
+  const bearHead=c.createRadialGradient(bx-s*0.03,by-s*0.6,s*0.04,bx,by-s*0.6,s*0.185);
+  bearHead.addColorStop(0,'#845030'); bearHead.addColorStop(1,'#4e2410');
+  c.fillStyle=bearHead;
+  c.beginPath(); c.arc(bx,by-s*0.6,s*0.182,0,Math.PI*2); c.fill();
+  // Ears
+  c.fillStyle='#4e2410';
+  c.beginPath(); c.arc(bx-s*0.125,by-s*0.745,s*0.075,0,Math.PI*2); c.fill();
+  c.beginPath(); c.arc(bx+s*0.125,by-s*0.745,s*0.075,0,Math.PI*2); c.fill();
+  c.fillStyle='#8a4a28';
+  c.beginPath(); c.arc(bx-s*0.125,by-s*0.745,s*0.042,0,Math.PI*2); c.fill();
+  c.beginPath(); c.arc(bx+s*0.125,by-s*0.745,s*0.042,0,Math.PI*2); c.fill();
+  // Muzzle
+  c.fillStyle='#6a3818';
+  c.beginPath(); c.ellipse(bx,by-s*0.555,s*0.08,s*0.058,0,0,Math.PI*2); c.fill();
+  c.fillStyle='#3a1a08';
+  c.beginPath(); c.arc(bx,by-s*0.562,s*0.018,0,Math.PI*2); c.fill();
+  // Bear eyes (warm glow)
+  c.fillStyle='rgba(255,200,100,0.3)';
+  c.beginPath(); c.arc(bx-s*0.07,by-s*0.628,s*0.028,0,Math.PI*2); c.fill();
+  c.beginPath(); c.arc(bx+s*0.07,by-s*0.628,s*0.028,0,Math.PI*2); c.fill();
+  c.fillStyle='#1a0a04';
+  c.beginPath(); c.arc(bx-s*0.07,by-s*0.628,s*0.016,0,Math.PI*2); c.fill();
+  c.beginPath(); c.arc(bx+s*0.07,by-s*0.628,s*0.016,0,Math.PI*2); c.fill();
+  // Bear arm around panda (warm & thick)
+  const armG=c.createLinearGradient(bx+s*0.13,by-s*0.3,cx+s*0.1,by-s*0.32);
+  armG.addColorStop(0,'#5a2a10'); armG.addColorStop(1,'#4e2410');
+  c.strokeStyle=armG; c.lineWidth=s*0.075; c.lineCap='round';
+  c.beginPath(); c.moveTo(bx+s*0.135,by-s*0.31); c.quadraticCurveTo(bx+s*0.3,by-s*0.38,cx+s*0.08,by-s*0.33); c.stroke();
+  // Bear legs
+  c.fillStyle='#4e2410';
+  c.beginPath(); c.ellipse(bx-s*0.075,by+s*0.015,s*0.06,s*0.13,Math.PI*0.05,0,Math.PI*2); c.fill();
+  c.beginPath(); c.ellipse(bx+s*0.075,by+s*0.015,s*0.06,s*0.13,Math.PI*-0.05,0,Math.PI*2); c.fill();
+  // Paws
+  c.fillStyle='#3a1a08';
+  c.beginPath(); c.ellipse(bx-s*0.078,by+s*0.145,s*0.072,s*0.038,0,0,Math.PI*2); c.fill();
+  c.beginPath(); c.ellipse(bx+s*0.078,by+s*0.145,s*0.072,s*0.038,0,0,Math.PI*2); c.fill();
+
+  // ── Panda (right, slightly cuter/smaller) ──
+  const px=cx+s*0.16;
+  // Body
+  const pandaBody=c.createRadialGradient(px,by-s*0.25,s*0.04,px,by-s*0.25,s*0.24);
+  pandaBody.addColorStop(0,'#f5f0ea'); pandaBody.addColorStop(1,'#d8d0c8');
+  c.fillStyle=pandaBody;
+  c.beginPath(); c.ellipse(px,by-s*0.25,s*0.148,s*0.238,0,0,Math.PI*2); c.fill();
+  // Black belly patch
+  c.fillStyle='rgba(30,25,20,0.18)';
+  c.beginPath(); c.ellipse(px,by-s*0.19,s*0.09,s*0.13,0,0,Math.PI*2); c.fill();
+  // Head
+  const pandaHead=c.createRadialGradient(px-s*0.02,by-s*0.56,s*0.03,px,by-s*0.565,s*0.17);
+  pandaHead.addColorStop(0,'#f8f4ee'); pandaHead.addColorStop(1,'#ddd6ce');
+  c.fillStyle=pandaHead;
+  c.beginPath(); c.arc(px,by-s*0.565,s*0.168,0,Math.PI*2); c.fill();
+  // Black ears
+  c.fillStyle='#1c1818';
+  c.beginPath(); c.arc(px-s*0.105,by-s*0.695,s*0.065,0,Math.PI*2); c.fill();
+  c.beginPath(); c.arc(px+s*0.105,by-s*0.695,s*0.065,0,Math.PI*2); c.fill();
+  // Eye patches (slightly rounded, natural)
+  c.fillStyle='#1c1818';
+  c.beginPath(); c.ellipse(px-s*0.068,by-s*0.572,s*0.056,s*0.042,Math.PI*0.15,0,Math.PI*2); c.fill();
+  c.beginPath(); c.ellipse(px+s*0.068,by-s*0.572,s*0.056,s*0.042,-Math.PI*0.15,0,Math.PI*2); c.fill();
+  // Eyes – white + iris + pupil + shine
+  c.fillStyle='white';
+  c.beginPath(); c.arc(px-s*0.065,by-s*0.577,s*0.026,0,Math.PI*2); c.fill();
+  c.beginPath(); c.arc(px+s*0.065,by-s*0.577,s*0.026,0,Math.PI*2); c.fill();
+  c.fillStyle='#3a2010'; // warm brown iris
+  c.beginPath(); c.arc(px-s*0.062,by-s*0.575,s*0.017,0,Math.PI*2); c.fill();
+  c.beginPath(); c.arc(px+s*0.068,by-s*0.575,s*0.017,0,Math.PI*2); c.fill();
+  c.fillStyle='#0a0a0a';
+  c.beginPath(); c.arc(px-s*0.058,by-s*0.573,s*0.01,0,Math.PI*2); c.fill();
+  c.beginPath(); c.arc(px+s*0.072,by-s*0.573,s*0.01,0,Math.PI*2); c.fill();
+  // Eye shine
+  c.fillStyle='rgba(255,255,255,0.85)';
+  c.beginPath(); c.arc(px-s*0.055,by-s*0.582,s*0.005,0,Math.PI*2); c.fill();
+  c.beginPath(); c.arc(px+s*0.075,by-s*0.582,s*0.005,0,Math.PI*2); c.fill();
+  // Muzzle
+  c.fillStyle='#e8d8c8';
+  c.beginPath(); c.ellipse(px,by-s*0.52,s*0.068,s*0.05,0,0,Math.PI*2); c.fill();
+  c.fillStyle='#1c1818';
+  c.beginPath(); c.arc(px,by-s*0.525,s*0.017,0,Math.PI*2); c.fill();
+  // Small smile
+  c.strokeStyle='rgba(80,40,20,0.5)'; c.lineWidth=s*0.008; c.lineCap='round';
+  c.beginPath(); c.arc(px,by-s*0.508,s*0.028,0.2,Math.PI-0.2); c.stroke();
+  // Panda arm around bear
+  const pArmG=c.createLinearGradient(px-s*0.12,by-s*0.26,bx+s*0.08,by-s*0.3);
+  pArmG.addColorStop(0,'#c8c0b8'); pArmG.addColorStop(1,'#d8d0c8');
+  c.strokeStyle=pArmG; c.lineWidth=s*0.066; c.lineCap='round';
+  c.beginPath(); c.moveTo(px-s*0.125,by-s*0.27); c.quadraticCurveTo(px-s*0.26,by-s*0.32,bx+s*0.08,by-s*0.3); c.stroke();
+  // Panda legs
+  c.fillStyle='#1c1818';
+  c.beginPath(); c.ellipse(px-s*0.062,by+s*0.015,s*0.055,s*0.12,Math.PI*0.05,0,Math.PI*2); c.fill();
+  c.beginPath(); c.ellipse(px+s*0.062,by+s*0.015,s*0.055,s*0.12,Math.PI*-0.05,0,Math.PI*2); c.fill();
+  c.fillStyle='#0e0e0e';
+  c.beginPath(); c.ellipse(px-s*0.064,by+s*0.14,s*0.068,s*0.035,0,0,Math.PI*2); c.fill();
+  c.beginPath(); c.ellipse(px+s*0.064,by+s*0.14,s*0.068,s*0.035,0,0,Math.PI*2); c.fill();
+
+  // ── Floating heart with glow ──
+  const hx=cx, hy=cy-s*0.85, hs=s*0.095;
+  const heartGlow=c.createRadialGradient(hx,hy,0,hx,hy,hs*2.5);
+  heartGlow.addColorStop(0,'rgba(255,100,150,0.35)'); heartGlow.addColorStop(1,'rgba(255,80,120,0)');
+  c.fillStyle=heartGlow; c.beginPath(); c.arc(hx,hy,hs*2.5,0,Math.PI*2); c.fill();
+  // Heart shape
+  const hg=c.createLinearGradient(hx,hy-hs,hx,hy+hs);
+  hg.addColorStop(0,'#ff6090'); hg.addColorStop(1,'#cc1850');
+  c.fillStyle=hg;
+  c.beginPath(); c.moveTo(hx,hy+hs*0.3);
+  c.bezierCurveTo(hx,hy-hs*0.25,hx-hs,hy-hs*0.25,hx-hs,hy+hs*0.08);
+  c.bezierCurveTo(hx-hs,hy+hs*0.62,hx,hy+hs,hx,hy+hs);
+  c.bezierCurveTo(hx,hy+hs,hx+hs,hy+hs*0.62,hx+hs,hy+hs*0.08);
+  c.bezierCurveTo(hx+hs,hy-hs*0.25,hx,hy-hs*0.25,hx,hy+hs*0.3);
+  c.fill();
+  // Heart shine
+  c.fillStyle='rgba(255,255,255,0.3)';
+  c.beginPath(); c.ellipse(hx-hs*0.22,hy-hs*0.05,hs*0.2,hs*0.12,Math.PI*-0.4,0,Math.PI*2); c.fill();
+}
+
+// ── CONFETTI ──
+const cfCv=document.getElementById('confetti'),cfCtx=cfCv.getContext('2d');
+let particles=[];
+const cfColors=['#FF6B9D','#FF4081','#FFB3CC','#FF8DC7','#B2EBD4','#E1BEE7','#FFAB91','#fff','#FFD6A5'];
+function startConfetti(){
+  cfCv.width=window.innerWidth;cfCv.height=window.innerHeight;
+  for(let i=0;i<180;i++) particles.push({x:Math.random()*cfCv.width,y:-20-Math.random()*200,w:5+Math.random()*9,h:4+Math.random()*6,color:cfColors[Math.floor(Math.random()*cfColors.length)],vx:(Math.random()-0.5)*3,vy:2+Math.random()*3,rot:Math.random()*360,rotV:(Math.random()-0.5)*6});
+  animCf();
+}
+function animCf(){
+  cfCtx.clearRect(0,0,cfCv.width,cfCv.height);
+  particles.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.rot+=p.rotV;if(p.y>cfCv.height+20){p.y=-20;p.x=Math.random()*cfCv.width;}cfCtx.save();cfCtx.translate(p.x,p.y);cfCtx.rotate(p.rot*Math.PI/180);cfCtx.fillStyle=p.color;cfCtx.fillRect(-p.w/2,-p.h/2,p.w,p.h);cfCtx.restore();});
+  if(particles.length>0) requestAnimationFrame(animCf);
+}
+
+// ── MUSIC – cozy, warm, starts once ──
+(function(){
+  const AC=window.AudioContext||window.webkitAudioContext;
+  if(!AC) return;
+  let ctx=null, started=false;
+
+  // Pentatonic scale notes (C major pentatonic) – always sounds pleasant
+  // Phrase format: [freq, duration, velocity 0-1]
+  const A=[ // Opening – gentle, curious
+    [523,0.4,0.7],[659,0.4,0.85],[784,0.4,0.9],[1047,0.6,1.0],
+    [880,0.3,0.7],[784,0.3,0.75],[659,0.5,0.8],[523,0.7,0.9]
+  ];
+  const B=[ // Tender middle – stepwise, warm
+    [587,0.35,0.75],[698,0.35,0.8],[880,0.35,0.85],[1047,0.5,0.95],
+    [880,0.28,0.65],[698,0.28,0.7],[587,0.28,0.72],[523,0.28,0.75],[440,0.6,0.85]
+  ];
+  const C=[ // Playful – short bouncy notes
+    [659,0.2,0.8],[784,0.2,0.85],[659,0.2,0.75],[523,0.32,0.9],
+    [784,0.2,0.82],[880,0.2,0.88],[784,0.2,0.78],[659,0.32,0.92],
+    [523,0.22,0.7],[659,0.22,0.8],[784,0.22,0.88],[1047,0.55,1.0]
+  ];
+  const D=[ // Resolution – coming home
+    [1047,0.3,0.9],[880,0.3,0.85],[784,0.3,0.8],[659,0.4,0.75],
+    [523,0.3,0.8],[659,0.3,0.75],[523,0.3,0.7],[392,0.8,0.9]
+  ];
+  const phrases=[A,B,C,D];
+
+  // Chord pads per phrase (root notes for gentle harmony)
+  const pads=[[131,196],[147,220],[165,247],[131,196]]; // C3/G3, D3/A3, E3/B3, C3/G3
+
+  function play(){
+    if(started) return;
+    started=true;
+    ctx=new AC();
+
+    // Master chain: gain → soft compressor → output
+    const master=ctx.createGain(); master.gain.value=0.065;
+    const comp=ctx.createDynamicsCompressor();
+    comp.threshold.value=-24; comp.knee.value=12; comp.ratio.value=3;
+    comp.attack.value=0.05; comp.release.value=0.3;
+    master.connect(comp); comp.connect(ctx.destination);
+
+    // Warm delay echo
+    const echo=ctx.createDelay(0.4); echo.delayTime.value=0.22;
+    const echoGain=ctx.createGain(); echoGain.gain.value=0.14;
+    echo.connect(echoGain); echoGain.connect(master);
+
+    let t=ctx.currentTime+0.2;
+    let pi=0;
+
+    function schedPhrase(){
+      const phrase=phrases[pi%phrases.length];
+      const [pr,p5]=pads[pi%pads.length];
+      const phraseDur=phrase.reduce((a,n)=>a+n[1],0);
+
+      // Soft pad chord underneath
+      [pr,p5,pr*2].forEach((cf,ci)=>{
+        const op=ctx.createOscillator(),gp=ctx.createGain();
+        op.type=ci===2?'triangle':'sine';
+        op.frequency.value=cf;
+        gp.gain.setValueAtTime(0,t);
+        gp.gain.linearRampToValueAtTime(0.22*(ci===2?0.5:1),t+0.5);
+        gp.gain.setValueAtTime(0.18*(ci===2?0.4:0.9),t+phraseDur*0.6);
+        gp.gain.linearRampToValueAtTime(0,t+phraseDur+0.3);
+        op.connect(gp); gp.connect(master);
+        op.start(t); op.stop(t+phraseDur+0.35);
+      });
+
+      // Melody
+      let mt=t;
+      phrase.forEach(([freq,dur,vel])=>{
+        // Sine melody voice
+        const o=ctx.createOscillator(),g=ctx.createGain();
+        o.type='sine'; o.frequency.value=freq;
+        g.gain.setValueAtTime(0,mt);
+        g.gain.linearRampToValueAtTime(vel*0.9,mt+0.04);
+        g.gain.setValueAtTime(vel*0.75,mt+dur*0.55);
+        g.gain.linearRampToValueAtTime(0,mt+dur);
+        o.connect(g); g.connect(master);
+        o.connect(echo); // add echo
+        o.start(mt); o.stop(mt+dur+0.05);
+
+        // Sub triangle for warmth
+        const o2=ctx.createOscillator(),g2=ctx.createGain();
+        o2.type='triangle'; o2.frequency.value=freq/2;
+        g2.gain.setValueAtTime(0,mt);
+        g2.gain.linearRampToValueAtTime(vel*0.18,mt+0.06);
+        g2.gain.linearRampToValueAtTime(0,mt+dur);
+        o2.connect(g2); g2.connect(master);
+        o2.start(mt); o2.stop(mt+dur+0.05);
+
+        // Faint bell overtone on strong beats
+        if(vel>0.85){
+          const ob=ctx.createOscillator(),gb=ctx.createGain();
+          ob.type='sine'; ob.frequency.value=freq*3;
+          gb.gain.setValueAtTime(0,mt);
+          gb.gain.linearRampToValueAtTime(0.06,mt+0.02);
+          gb.gain.linearRampToValueAtTime(0,mt+dur*0.4);
+          ob.connect(gb); gb.connect(master);
+          ob.start(mt); ob.stop(mt+dur*0.5);
+        }
+        mt+=dur;
+      });
+
+      t=mt+0.32; // breath between phrases
+      pi++;
+      const delay=(t-ctx.currentTime)*1000-280;
+      setTimeout(schedPhrase,Math.max(delay,10));
+    }
+    schedPhrase();
+  }
+
+  document.addEventListener('touchstart',function h(){play();document.removeEventListener('touchstart',h,true);},{capture:true,once:true});
+  document.addEventListener('click',function h(){play();document.removeEventListener('click',h,true);},{capture:true,once:true});
+  setTimeout(()=>{try{play();}catch(e){}},200);
+})();
 </script>
-
 </body>
 </html>
